@@ -14,6 +14,7 @@ import java.util.List;
 @Service
 public class CricketerServiceImplJpa implements CricketerService {
 
+    @Autowired
     private CricketerRepository cricketerRepository;
 
     @Autowired
