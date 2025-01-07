@@ -1,6 +1,7 @@
 package com.wecp.progressive.service.impl;
 
 import com.wecp.progressive.entity.Cricketer;
+import com.wecp.progressive.exception.TeamCricketerLimitExceededException;
 import com.wecp.progressive.repository.CricketerRepository;
 import com.wecp.progressive.service.CricketerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,11 @@ public class CricketerServiceImplJpa implements CricketerService {
 
     @Override
     public Integer addCricketer(Cricketer cricketer) throws SQLException {
+        int noOfCricketers = cricketerRepository.findAll().size();
+        if(noOfCricketers >= 11)
+        {
+            throw new TeamCricketerLimitExceededException("already 11 cricekters");
+        }
         return cricketerRepository.save(cricketer).getCricketerId();
     }
 
