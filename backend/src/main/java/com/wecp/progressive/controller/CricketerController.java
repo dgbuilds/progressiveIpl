@@ -47,7 +47,7 @@ public class CricketerController {
         }catch(TeamCricketerLimitExceededException t){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } 
-        catch (SQLException e) {
+        catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

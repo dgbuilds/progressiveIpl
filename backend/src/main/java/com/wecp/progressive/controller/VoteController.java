@@ -2,6 +2,7 @@ package com.wecp.progressive.controller;
 
 import com.wecp.progressive.entity.Vote;
 import com.wecp.progressive.service.VoteService;
+import com.wecp.progressive.service.impl.VoteServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.convert.ReadingConverter;
@@ -22,7 +23,7 @@ import java.util.Map;
 public class VoteController {
 
     @Autowired
-    private VoteService voteService;
+    VoteServiceImpl voteService;
 
     @GetMapping
     public ResponseEntity<List<Vote>> getAllVotes() {

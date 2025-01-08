@@ -6,6 +6,7 @@ import com.wecp.progressive.exception.TeamDoesNotExistException;
 import com.wecp.progressive.repository.CricketerRepository;
 import com.wecp.progressive.repository.MatchRepository;
 import com.wecp.progressive.repository.TeamRepository;
+import com.wecp.progressive.repository.VoteRepository;
 import com.wecp.progressive.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,9 @@ public class TeamServiceImplJpa  implements TeamService {
     MatchRepository matchRepository;
 
     @Autowired
+    VoteRepository voteRepository;
+
+    @Autowired
     public TeamServiceImplJpa(TeamRepository teamRepository) {
         this.teamRepository = teamRepository;
     }
@@ -37,7 +41,7 @@ public class TeamServiceImplJpa  implements TeamService {
     }
 
     @Override
-    public int addTeam(Team team) throws SQLException {
+    public int addTeam(Team team) throws TeamAlreadyExistsException {
         Optional<Team> existingTeam = teamRepository.findByTeamName(team.getTeamName());
         if (existingTeam.isPresent()) {
             throw new TeamAlreadyExistsException("Team with name " + team.getTeamName() + " already exists.");
@@ -53,7 +57,7 @@ public class TeamServiceImplJpa  implements TeamService {
     }
 
     @Override
-    public Team getTeamById(int teamId) throws SQLException {
+    public Team getTeamById(int teamId) throws TeamDoesNotExistException {
         Optional<Team> existingTeam = teamRepository.findByTeamId(teamId);
         if(!existingTeam.isPresent())
         {
@@ -63,7 +67,7 @@ public class TeamServiceImplJpa  implements TeamService {
     }
 
     @Override
-    public void updateTeam(Team team) throws SQLException {
+    public void updateTeam(Team team) throws TeamAlreadyExistsException {
         Optional<Team> existingTeam = teamRepository.findByTeamName(team.getTeamName());
         if(existingTeam.isPresent())
         {
@@ -77,6 +81,7 @@ public class TeamServiceImplJpa  implements TeamService {
 
     @Override
     public void deleteTeam(int teamId) throws SQLException {
+        voteRepository.deleteByTeamId(teamId);
         matchRepository.deleteByTeamId(teamId);
         cricketerRepository.deleteByTeamId(teamId);
         teamRepository.deleteById(teamId);

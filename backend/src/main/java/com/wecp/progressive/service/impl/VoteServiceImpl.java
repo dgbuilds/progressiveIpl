@@ -16,7 +16,7 @@ import com.wecp.progressive.service.VoteService;
 public class VoteServiceImpl implements VoteService {
 
     @Autowired
-    private VoteRepository voteRepository;
+    VoteRepository voteRepository;
 
     public List<Vote> getAllVotes()
     {
